@@ -10,7 +10,7 @@ function ServingType() {
   const Topping = params.Topping;
   const sauce = params.sauce;
 
-  const [servingtype, setServingtype] = useState("กรูณาเลือก servingtype");
+  const [servingtype, setServingtype] = useState("กรุณาเลือก servingtype");
   const [formAdditem, setFormAdditem] = useState({
     icecream: icecream,
     customerId: customerId,
@@ -21,8 +21,15 @@ function ServingType() {
 
   console.log(formAdditem);
 
+
+  const handleBack = async () => {
+    
+    navigate(`/Source/${customerId}/${icecream}/${Topping}`); // เปลี่ยนเส้นทางไปยังหน้าที่คุณต้องการ
+   
+};
+
   const handleSubmit = async () => {
-    if (servingtype === "กรูณาเลือก servingtype") {
+    if (servingtype == "กรุณาเลือก servingtype") {
       alert("กรุณาเลือก servingtype");
     } else {
       console.log('formAdditem', formAdditem);
@@ -60,55 +67,55 @@ function ServingType() {
   };
 
   return (
-    <div>
-      <div className="bg-red-300 flex justify-center items-center py-6">
-        <div className="text-[30px] flex flex-col justify-center items-center">
+    <div className="min-h-screen pt-10 bg-gradient-to-r from-fuchsia-200 to-indigo-200">
+      <div className=" flex justify-center items-center py-6">
+        <div className="bg-clip-text text-[40px] font-bold text-transparent bg-gradient-to-r from-pink-500 to-violet-500 mb-4 text-[30px] flex flex-col justify-center items-center">
           <h1>servingtype</h1>
           <h1>{servingtype}</h1>
         </div>
       </div>
 
-      <div className="bg-green-400">
+      <div className="">
         <div className="flex justify-between px-[100px]">
           <div className="flex flex-col justify-center">
             <img
-              className="w-[200px] h-[200px] object-cover"
+              className="w-[200px] h-[200px] object-cover rounded-lg"
               src="https://www.kcltrading.com/userfiles/images/blog-4.jpg"
               alt=""
             />
             <button
-              onClick={() => handleServingtypeChange("ServingtypeA")}
-              className="bg-red-500 px-3 py-2 rounded-lg hover:bg-yellow-200"
+              onClick={() => handleServingtypeChange("Cone")}
+              className="bg-red-500 px-3 py-2 rounded-lg hover:bg-yellow-200 mt-5"
             >
-              เลือก servingtype:A
+              Cone 25 บาท
             </button>
           </div>
 
           <div className="flex flex-col justify-center">
             <img
-              className="w-[200px] h-[200px] object-cover"
-              src="https://www.kcltrading.com/userfiles/images/blog-4.jpg"
+              className="w-[200px] h-[200px] object-cover rounded-lg"
+              src="https://inwfile.com/s-fa/n1tufx.jpg"
               alt=""
             />
             <button
-              onClick={() => handleServingtypeChange("servingtypeB")}
-              className="bg-yellow-500 px-3 py-2 rounded-lg hover:bg-yellow-200"
+              onClick={() => handleServingtypeChange("Cup")}
+              className="bg-yellow-500 px-3 py-2 rounded-lg hover:bg-yellow-200 mt-5"
             >
-              เลือก servingtype:B
+              Cup 25 บาท
             </button>
           </div>
 
           <div className="flex flex-col justify-center">
             <img
-              className="w-[200px] h-[200px] object-cover"
-              src="https://www.kcltrading.com/userfiles/images/blog-4.jpg"
+              className="w-[200px] h-[200px] object-cover rounded-lg"
+              src="https://cdn.webshopapp.com/shops/318204/files/463186749/image.jpg"
               alt=""
             />
             <button
-              onClick={() => handleServingtypeChange("ServingtypeA")}
-              className="bg-red-500 px-3 py-2 rounded-lg hover:bg-yellow-200"
+              onClick={() => handleServingtypeChange("Chocolate Cone")}
+              className="bg-red-500 px-3 py-2 rounded-lg hover:bg-yellow-200 mt-5"
             >
-              เลือก servingtype:A
+              Chocolate Cone 40 บาท 
             </button>
           </div>
         </div>
@@ -116,7 +123,10 @@ function ServingType() {
 
       <div className="flex justify-end px-[100px] mt-10">
         <div>
-          <button onClick={handleSubmit} className="bg-yellow-500 px-10 py-2">
+        <button onClick={handleBack} className="bg-yellow-500 px-10 py-2 mr-5 rounded-lg">
+            Back
+          </button>
+          <button onClick={handleSubmit} className="bg-yellow-500 px-10 py-2 mr-5 rounded-lg">
             Next
           </button>
         </div>

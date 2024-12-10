@@ -73,7 +73,7 @@ function ReviewProduct() {
   }, [ItemID]);  // useEffect จะทำงานเมื่อ เปลี่ยนแปลง
 
   return (
-    <div className="flex flex-col justify-center items-center  pt-10 bg-gradient-to-r from-fuchsia-200 to-indigo-200">
+    <div className="flex flex-col justify-center items-center min-h-screen  pt-10 bg-gradient-to-r from-fuchsia-200 to-indigo-200">
       <p className="text-lg font-medium">ให้คะแนนสินค้า</p>
 
       {/* การแสดงดาว */}
