@@ -39,6 +39,8 @@ exports.DeleteAll = async(req, res) => {
 
         DeleteItem =
             await db.query("DELETE  FROM `item` WHERE `item`.OrderID =  ?", [OrderID]);
+        DeleteCustomer  =
+            await db.query("DELETE  FROM `customer` WHERE `customer`.CustomerID =  ?", [CustomerID]);
 
         res.send("cf")
     } catch (error) {

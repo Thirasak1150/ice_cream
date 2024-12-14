@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import axios from "axios";  
 function icecream() {
   const navigate = useNavigate(); // สร้างตัวแปร navigate
   const params = useParams();
@@ -14,6 +14,31 @@ function icecream() {
       navigate(`/Topping/${customerId}/${icecream}`);
     }
   };
+  const handleDelete = async () => {
+    try {
+        const response = await axios.delete("http://localhost:3000/DeleteCustomer", {
+            data: { CustomerID: customerId } // ใช้ชื่อ key ที่สอดคล้องกับ API
+        });
+
+        // ตรวจสอบว่าการส่งข้อมูลสำเร็จ
+        if (response.data.message == "ลบข้อมูลลูกค้าเรียบร้อยแล้ว") {
+            console.log("ข้อมูลถูกลบสำเร็จ:", response.data);
+
+            // ตรวจสอบและใช้ customerId หากจำเป็น
+            if (response.data.customerId) {
+                navigate(`/`); // เปลี่ยนเส้นทางไปหน้า home หรือหน้าอื่นที่คุณต้องการ
+            }
+        } else {
+            console.error("การลบข้อมูลล้มเหลว:", response.data);
+        }
+    } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการลบข้อมูล:", error.message);
+
+        // แสดงข้อความข้อผิดพลาด หรือแจ้งเตือนผู้ใช้
+        alert("เกิดข้อผิดพลาดในการลบข้อมูล");
+    }
+};
+
   return (
     <div className="  min-h-screen pt-10 bg-gradient-to-r from-fuchsia-200 to-indigo-200">
       <div className="  flex justify-center items-center py-6 ">
@@ -119,12 +144,18 @@ function icecream() {
         </div>
       </div>
 
-      <div className=" flex justify-end px-[100px] mt-10">
+      <div className=" flex justify-end px-[100px] mt-10 gap-2">
+      <div>
+          <button onClick={handleDelete} className="bg-yellow-500 px-10 py-2 rounded-lg">
+            ยกเลิกการสั่ง
+          </button>
+        </div>
         <div>
           <button onClick={handleSubmit} className="bg-yellow-500 px-10 py-2 rounded-lg">
             Next
           </button>
         </div>
+        
       </div>
     </div>
   );

@@ -9,6 +9,9 @@ const Form = () => {
     Phon_No: "",
     Location: "",
   });
+  
+ 
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,15 +23,19 @@ const Form = () => {
 
   
   const handleSubmit = async () => {
-    console.log('form', form);
-    try {
+    if (form.FName == "" && form.LName == ""&& form.Phon_No == "" ) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+   
+    }
+    else{
+      try {
         const response = await axios.post("http://localhost:3000/FoemAddCustomer", form);
 
         // ตรวจสอบว่าการส่งข้อมูลสำเร็จ
         if (response.status === 201) {
             console.log("ข้อมูลถูกส่งสำเร็จ:", response.data);
 
-            // รับ customerId จาก response
+            // รับ customerId จาก responses
             const customerId = response.data.customerId;
             if(customerId){
               navigate(`/Icecream/${customerId}`); // เปลี่ยนเส้นทางไปยังหน้า icecream เเละส่ง customer ไปด้วย
@@ -45,6 +52,8 @@ const Form = () => {
     } catch (error) {
         console.error("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์:", error);
     }
+    }
+   
 };
 
 

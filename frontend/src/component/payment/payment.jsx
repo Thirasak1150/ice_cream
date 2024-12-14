@@ -5,7 +5,7 @@ function Summayselecticecream() {
   const navigate = useNavigate(); // สร้างตัวแปร navigate
   const params = useParams();
   const ItemID = params.ItemID;
-  const [statuspayment, setstatuspayment] = useState("กรูณาเลือกวิธีชำระเงิน");
+  const [statuspayment, setstatuspayment] = useState("กรุณาเลือกวิธีชำระเงิน");
   const [referenceNumber, setReferenceNumber] = useState("");
   const [data, setData] = useState({
     Payment_Method: statuspayment,
@@ -19,7 +19,7 @@ function Summayselecticecream() {
     Sauce_Price: "",
     Serving_Price: "",
     referenceNumber: 0,
-    OrderID:""
+    OrderID: "",
   });
   console.log(data);
   const [CheckPayment, setCheckPayment] = useState(true);
@@ -44,9 +44,6 @@ function Summayselecticecream() {
           Serving_Price: response.data.Serving_Price,
           Payment_Amount: response.data.Order_Price,
           OrderID: response.data.OrderID,
-      
-
-          
         });
       } else {
         console.error("เกิดข้อผิดพลาดในการส่งข้อมูล");
@@ -66,7 +63,6 @@ function Summayselecticecream() {
     generateRandomNumber();
   }, [ItemID]); // useEffect จะทำงานเมื่อ เปลี่ยนแปลง
 
-
   useEffect(() => {
     setData((prevData) => ({
       ...prevData,
@@ -75,133 +71,167 @@ function Summayselecticecream() {
     }));
   }, [statuspayment, referenceNumber]);
   const handleNextreviewproduct = async () => {
-    if(statuspayment != "กรูณาเลือกวิธีชำระเงิน"){
+    if (statuspayment != "กรุณาเลือกวิธีชำระเงิน") {
       console.log("data", data);
-      setData((prevData) => ({ ...prevData, referenceNumber: referenceNumber }));
+      setData((prevData) => ({
+        ...prevData,
+        referenceNumber: referenceNumber,
+      }));
       try {
         const response = await axios.post(
           "http://localhost:3000/AddPayment",
           data
         );
-  
+
         // ตรวจสอบว่าการส่งข้อมูลสำเร็จ
         if (response.status === 201) {
           console.log("ข้อมูลถูกส่งสำเร็จ:", response.data);
-  
+
           // รับ customerId จาก response
           const PaymentID = response.data.PaymentID;
-             // แสดง customerId ที่ได้รับ
-             console.log("payment ID ที่สร้างใหม่:", PaymentID);
-          if(PaymentID){
+          // แสดง customerId ที่ได้รับ
+          console.log("payment ID ที่สร้างใหม่:", PaymentID);
+          if (PaymentID) {
             navigate(`/Reviewproduct/${ItemID}`); // เปลี่ยนเส้นทางไปยังหน้า icecream เเละส่ง customer ไปด้วย
           }
-  
-       
         } else {
           console.error("เกิดข้อผิดพลาดในการส่งข้อมูล");
         }
       } catch (error) {
         console.error("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์:", error);
       }
+    } else {
+      alert("กรุณาเลือกวิธีชำระเงิน");
     }
-    else{
-      alert("กรุณาเลือกวิธีชำระเงิน")
-    }
-   
   };
+
+  const handleDelete = async() => {
+    try {
+        const response = await axios.delete("http://localhost:3000/cancelOrderDelivery", {
+            data: { ItemID: ItemID }
+        });
+
+        if (response.status === 200) {
+            console.log("ข้อมูลถูกลบสำเร็จ:", response.data);
+            navigate(`/`);
+      
+        } else {
+            console.error("เกิดข้อผิดพลาดในการลบข้อมูล");
+        }
+    } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์:", error);
+    }
+
+  };
+
   return (
     <>
-    <div className=" overflow-hidden w-screen h-screen pt-10 bg-gradient-to-r from-fuchsia-200 to-indigo-200">
-      <div className="flex justify-center flex-col items-center">
-        <div>
-          <h1 className="bg-clip-text text-[70px] font-bold text-transparent bg-gradient-to-r from-pink-500 to-violet-500 mb-4">
-            Payment
-          </h1>
-        </div>
-
-        <div className="w-[600px] mt-10 flex flex-col justify-center items-center">
-          {CheckPayment ? (
-            <div className="mb-5">
-              <h1 className="text-lg font-bold mb-2">
-                วิธีชำระเงิน: {data.Payment_Method}
-              </h1>
-              <button
-                type="button"
-                onClick={() => setstatuspayment("เงินสด")}
-                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
-                เงินสด
-              </button>
-              <button
-                type="button"
-                onClick={() => setstatuspayment("บัตรเครดิต")}
-                className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
-                บัตรเครดิต
-              </button>
-            </div>
-          ) : (
-            <div className="mb-5">
-              <h1 className="text-lg font-bold mb-2">
-                วิธีชำระเงิน: {data.วิธีชำระเงิน}
-              </h1>
-              <button
-                type="button"
-                onClick={() => setstatuspayment("เงินสด")}
-                className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
-                เงินสด
-              </button>
-              <button
-                type="button"
-                onClick={() => setstatuspayment("บัตรเครดิต")}
-                className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
-                บัตรเครดิต
-              </button>
-            </div>
-          )}
-
-          <div className="mb-5">
-            <h1 className="text-lg font-bold mb-2">รายละเอียดชำระเงิน</h1>
-            <div className="text-[20px] font-bold">
-              <p>
-                icecream: {data.topping} ราคา:{data.icecream_Price}
-              </p>
-              <p>
-                Topping: {data.topping} ราคา:{data.Topping_Price}
-              </p>
-              <p>
-                sauce: {data.sauce} ราคา:{data.Sauce_Price}
-              </p>
-              <p>
-                servingtype: {data.servingtype} ราคา:{data.Serving_Price}
-              </p>
-            </div>
-          </div>
-
-          <div className="mb-2">
-            <h1 className="text-[39px] font-bold mb-2 ">
-              ราคาทั้งหมด: {data.Payment_Amount}
+      <div className=" overflow-hidden w-screen h-screen pt-2 bg-gradient-to-r from-fuchsia-200 to-indigo-200">
+        <div className="flex justify-center flex-col items-center">
+          <div>
+            <h1 className="bg-clip-text text-[70px] font-bold text-transparent bg-gradient-to-r from-pink-500 to-violet-500 mb-4">
+              Payment
             </h1>
           </div>
-          <div className="mb-2 ">
-            <h1 className="text-lg font-bold mb-2">
-              Reference_Number: {referenceNumber}
-            </h1>
-          </div>
-        </div>
-        <div className="w-full flex justify-end h-[80px] mt-[100px] px-[150px]">
-          <button
-            type="button"
-            onClick={handleNextreviewproduct}
-            className="text-white text-xl h-[50px] w-[120px] bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg  px-5 py-2.5 text-center me-2 mb-2"
+
+          <div
+            className="bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg max-w-[400px] w-full  ml-10 mt-1 flex flex-col
+             justify-center items-center  p-4 shadow-lg   "
           >
-            Next
-          </button>
+            {CheckPayment ? (
+              <div className="mb-5 px-9 w-[400px] mr-40  p-1 ml-40">
+                <h1 className="text-lg font-bold mb-2  text-white">
+                  วิธีชำระเงิน: {data.Payment_Method}
+                </h1>
+                <button
+                  type="button"
+                  onClick={() => setstatuspayment("เงินสด")}
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                  เงินสด
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setstatuspayment("บัตรเครดิต")}
+                  className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                  บัตรเครดิต
+                </button>
+              </div>
+            ) : (
+              <div className="mb-5">
+                <h1 className="text-lg font-bold mb-2 ">
+                  วิธีชำระเงิน: {data.วิธีชำระเงิน}
+                </h1>
+                <button
+                  type="button"
+                  onClick={() => setstatuspayment("เงินสด")}
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                  เงินสด
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setstatuspayment("บัตรเครดิต")}
+                  className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                  บัตรเครดิต
+                </button>
+              </div>
+            )}
+
+            <div className="mb-5">
+              <h1 className="text-lg font-bold mb-2 text-white">รายละเอียดชำระเงิน</h1>
+              <div className="text-[20px] font-bold text-white">
+                <p>
+                  icecream: {data.icecream} ราคา:{data.icecream_Price}
+                </p>
+                <p>
+                  Topping: {data.topping} ราคา:{data.Topping_Price}
+                </p>
+                <p>
+                  sauce: {data.sauce} ราคา:{data.Sauce_Price}
+                </p>
+                <p>
+                  servingtype: {data.servingtype} ราคา:{data.Serving_Price}
+                </p>
+              </div>
+            </div>
+
+            <div className="mb-2">
+              <h1 className="text-[39px] font-bold mb-2 text-white ">
+                ราคาทั้งหมด: {data.Payment_Amount}
+              </h1>
+            </div>
+            <div className="mb-2 ">
+              <h1 className="text-lg font-bold mb-2 text-white">
+                Reference_Number: {referenceNumber}
+              </h1>
+            </div>
+          </div>
+          <div className="w-full flex justify-end h-[80px] mt-10 px-[150px] flex gap-2">
+
+          <button
+              type="button"
+              onClick={handleDelete}
+              className="text-white text-xl h-[50px] w-[120px] bg-gradient-to-r from-purple-500 to-pink-500 
+              hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 
+              font-medium rounded-lg  px-5 py-2.5 text-center me-2 mb-2 mt-1 object-cover"
+            >
+              ยกเลิก
+            </button>
+            <button
+              type="button"
+              onClick={handleNextreviewproduct}
+              className="text-white text-xl h-[50px] w-[120px] bg-gradient-to-r from-purple-500 to-pink-500 
+              hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 
+              font-medium rounded-lg  px-5 py-2.5 text-center me-2 mb-2 mt-1 "
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

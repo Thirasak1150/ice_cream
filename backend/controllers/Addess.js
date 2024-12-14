@@ -16,7 +16,7 @@ exports.AddLocation = async(req, res) => {
     const year = today.getFullYear();
     const currentDate = day + "/" + month + "/" + year
     try {
-        // ดึงข้อมูลจากฐานข้อมูล
+
         SELECTCustomerIDandOrderIDID =
             await db.query("SELECT `order`.CustomerID,`order`.OrderID FROM `order`, item WHERE item.OrderID = `order`.OrderID AND item.ItemID = ?", [ItemID]);
         CustomerID = SELECTCustomerIDandOrderIDID[0][0].CustomerID
@@ -24,8 +24,6 @@ exports.AddLocation = async(req, res) => {
         console.log('CustomerID', CustomerID)
         console.log('OrderIDID', OrderID)
         console.log("SELECTCustomerIDandOrderIDID successful:", SELECTCustomerIDandOrderIDID);
-
-
 
         SELECTCustomerName =
             await db.query("SELECT FName,LName FROM `customer`  WHERE CustomerID = ?", [CustomerID]);
@@ -38,9 +36,7 @@ exports.AddLocation = async(req, res) => {
         UpdateCustomerLocation =
             await db.query("UPDATE `customer` SET Location = ? WHERE CustomerID = ?", [Location, CustomerID]);
         console.log("UpdateCustomerLocation successful:", UpdateCustomerLocation);
-
-
-
+        
         CreateDelivery =
             await db.query("INSERT INTO `delivery` (Delivery_Address,Delivery_Date,Customer_Name,OrderID) VALUES (?,?,?,?)", [Location, currentDate, Customer_NameQ, OrderID], );
         console.log("CreateDelivery successful:", CreateDelivery);

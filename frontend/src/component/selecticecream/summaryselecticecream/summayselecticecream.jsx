@@ -61,23 +61,24 @@ function Summayselecticecream() {
             Item
           </h1>
         </div>
-        <div className="w-[600px] mt-10">
+        <div className="bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg max-w-[400px] w-full  ml-10 mt-[2%] flex flex-col
+             justify-center items-center  p-4 shadow-lg">
           <div className="mb-5">
-            <h1 className="text-lg font-bold mb-2">Itemid: {ItemID}</h1>
+            <h1 className="text-lg font-bold mb-2 text-white">Itemid: {ItemID}</h1>
           </div>
           <div className="mb-5">
-            <h1 className="text-lg font-bold mb-2">
+            <h1 className="text-lg font-bold mb-2 text-white">
               Icecream: {data.icecream}
             </h1>
           </div>
           <div className="mb-5">
-            <h1 className="text-lg font-bold mb-2">Topping: {data.topping}</h1>
+            <h1 className="text-lg font-bold mb-2 text-white">Topping: {data.topping}</h1>
           </div>
           <div className="mb-5">
-            <h1 className="text-lg font-bold mb-2">source: {data.sauce}</h1>
+            <h1 className="text-lg font-bold mb-2 text-white">source: {data.sauce}</h1>
           </div>
           <div className="mb-5">
-            <h1 className="text-lg font-bold mb-2">
+            <h1 className="text-lg font-bold mb-2 text-white">
               servingtype: {data.servingtype}
             </h1>
           </div>

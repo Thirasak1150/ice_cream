@@ -171,3 +171,37 @@ exports.ReadItemPrice = async(req, res) => {
         res.status(500).send("เกิดข้อผิดพลาดในระบบ");
     }
 };
+
+
+exports.cancelOrderDelivery = async(req, res) => {
+    let ItemID = req.body.ItemID;
+
+    console.log("ItemID", ItemID)
+    try {
+        SeleteOrderID =
+            await db.query("SELECT `order`.OrderID FROM `order`, item WHERE item.OrderID = `order`.OrderID AND item.ItemID = ?", [ItemID]);
+        const OrderID = SeleteOrderID[0][0].OrderID
+        console.log('OrderID', OrderID)
+
+        SeleteCustomerID =
+            await db.query("SELECT `customer`.CustomerID FROM `customer`, `order` WHERE `order`.CustomerID = `customer`.CustomerID AND order.OrderID = ?", [OrderID]);
+        const CustomerID = SeleteCustomerID[0][0].CustomerID
+        console.log('customer', CustomerID)
+        DeleteDelivery =
+            await db.query("DELETE  FROM `delivery` WHERE `delivery`.OrderID =  ?", [OrderID]);
+
+        DeleteOrder =
+            await db.query("DELETE  FROM `order` WHERE `order`.OrderID =  ?", [OrderID]);
+
+            DeleteItem=
+            await db.query("DELETE  FROM `item` WHERE `item`.OrderID =  ?", [OrderID]);
+            
+            DeleteCustomer  =
+            await db.query("DELETE  FROM `customer` WHERE `customer`.CustomerID =  ?", [CustomerID]);
+
+        res.send("cf")
+    } catch (error) {
+        console.error("เกิดข้อผิดพลาด:", error.message);
+        res.status(500).send("เกิดข้อผิดพลาดในระบบ");
+    }
+};

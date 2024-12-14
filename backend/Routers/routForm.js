@@ -1,8 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
-const { FoemAddCustomer } = require("../controllers/form")
+const { FoemAddCustomer,DeleteCustomer } = require("../controllers/form")
 
 router.post("/FoemAddCustomer", FoemAddCustomer)
+router.delete("/DeleteCustomer", DeleteCustomer)
 
 module.exports = router;

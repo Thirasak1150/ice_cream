@@ -84,21 +84,22 @@ console.log(data)
               Delivery
             </h1>
           </div>
-          <div className="w-[600px] mt-10">
-            <div className="mb-5">
-              <h1 className="text-lg font-bold mb-2">
+          <div className=" bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg max-w-[400px] w-full  ml-10 mt-[2%] flex flex-col
+             justify-center items-center  p-4 shadow-lg ">
+            <div className="mb-1 mt-0">
+              <h1 className="text-lg font-bold mb-2  text-white">
                 Delivery ID: {data.DeliveryID}
               </h1>
             </div>
-            <div className="mb-5">
-              <h1 className="text-lg font-bold mb-2">
+            <div className="mb-1 mt-0">
+              <h1 className="text-lg font-bold mb-2 text-white">
                 Delivery_Address: {data.Delivery_Address}
               </h1>
-              <h1 className="text-lg font-bold mb-2">Delivery_Date: {data.Delivery_Date}</h1>
+              <h1 className="text-lg font-bold mb-2 text-white">Delivery_Date: {data.Delivery_Date}</h1>
             </div>
             <div className="mb-5">
-              <h1 className="text-lg font-bold mb-2">Customer_Name: {data.Customer_Name}</h1>
-              <h1 className="text-lg font-bold mb-2">
+              <h1 className="text-lg font-bold mb-2 text-white">Customer_Name: {data.Customer_Name}</h1>
+              <h1 className="text-lg font-bold mb-2 text-white">
                 Order ID: {data.OrderID}
               </h1>
             </div>
@@ -138,7 +139,7 @@ console.log(data)
               onClick={handleSaveData}  // เมื่อกดปุ่มจะบันทึกข้อมูล
               className="text-white text-xl h-[50px] w-[120px] bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg  px-5 py-2.5 text-center me-2 mb-2"
             >
-              Save Data
+              Save
             </button>
           </div>
         </div>
